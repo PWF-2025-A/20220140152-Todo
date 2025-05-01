@@ -89,6 +89,31 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         {{-- Tambahkan aksi di sini jika perlu --}}
+                                        @if ($data->is_admin)
+                                            <form action="{{ route('user.removeadmin', $data) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-blue-600 dark:text-blue-400 whitespace-nowrap">
+                                                    Remove Admin
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('user.makeadmin', $data) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-red-600 dark:text-red-400 whitespace-nowrap">
+                                                    Make Admin
+                                                </button>
+                                            </form>
+                                        @endif
+                                        <form action="{{ route('user.destroy', $data) }}" method="Post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit"
+                                                class="text-red-600 dark:text-red-400 whitespace-nowrap">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty

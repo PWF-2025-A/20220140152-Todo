@@ -28,4 +28,34 @@ class UserController extends Controller
 
         return view('user.index', compact('users'));
     }
+    public function makeadmin(User $data)
+    {
+        $data->timestamps = false;
+        $data->is_admin = true;
+        $data->update();
+
+        return back()->with('success', 'Make admin successfully!');
+    }
+
+    public function removeadmin(User $data)
+    {
+        if ($data->id != 1) {
+            $data->timestamps = false;
+            $data->is_admin = false;
+            $data->update();
+
+            return back()->with('success', 'Remove admin successfully!');
+        } else {
+            return redirect()->route('user.index');
+        }
+    }
+    public function destroy(User $data)
+    {
+        if ($data->id != 1) {
+            $data->delete();
+            return back()->with('success', 'Delete user successfully!');
+        } else {
+            return redirect()->route('user.index')->with('danger', 'Delete user failed!');
+        }
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Todo extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'user_id', 'is_completed'];
+    protected $fillable = ['title', 'user_id', 'is_done'];
     public function user(){
         return $this->belongsTo(User::class);
     }
