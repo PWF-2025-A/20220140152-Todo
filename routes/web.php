@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 
     Route::resource('todo', TodoController::class)->except(['show']);
     Route::get('/todo', [TodoCOntroller::class, 'store'])->name('todo.store');
@@ -33,11 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/todo/{todo}', [TodoCOntroller::class, 'update'])->name('todo.update');
     Route::delete('/todo/{todo}', [TodoCOntroller::class, 'destroy'])->name('todo.destroy');
     Route::delete('/todo', [TodoCOntroller::class, 'destroyCompleted'])->name('todo.deleteallcompleted');
-
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-
     Route::resource('todo', TodoCOntroller::class);
+});
+    Route::middleware(['auth','admin'])->group(function (){
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::patch('/user/{data}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
     Route::patch('/user/{data}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
     Route::delete('/user/{data}', [UserController::class, 'destroy'])->name('user.destroy');
+    });
 require __DIR__.'/auth.php';
