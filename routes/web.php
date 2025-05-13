@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,10 +36,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/todo', [TodoCOntroller::class, 'destroyCompleted'])->name('todo.deleteallcompleted');
     Route::resource('todo', TodoCOntroller::class);
 });
+    Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+
+
     Route::middleware(['auth','admin'])->group(function (){
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::patch('/user/{data}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
     Route::patch('/user/{data}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
     Route::delete('/user/{data}', [UserController::class, 'destroy'])->name('user.destroy');
     });
+   
 require __DIR__.'/auth.php';
