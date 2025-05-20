@@ -10,7 +10,7 @@ use App\Models\Category;
 class TodoController extends Controller
 {
     public function index(){
-       $todos = Todo::where('user_id', Auth::id())->orderBy('created_at','desc')->get();
+       $todos = Todo::with('category')->where('user_id', Auth::id())->orderBy('created_at','desc')->get();
      // $todos = Todo::where('user_id', Auth::id())->get();
      // dd($todos);
      $todosCompleted = Todo::where('user_id', auth::user()->id)
