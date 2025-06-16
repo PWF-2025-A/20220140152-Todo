@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Auth;
 class Admin
 {
     /**
@@ -15,9 +15,15 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && $request->user()->is_admin){
-            return $next($request);
-        }
-       return redirect()->route('/dashboard');
+         $user = Auth::guard('api')->user();
+        if (!$user || !$user->is_admin) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthorized access',
+        ], Response::HTTP_UNAUTHORIZED);
+    }
+
+    // Jika admin, izinkan lanjut
+    return $next($request);
     }
 }

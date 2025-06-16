@@ -65,10 +65,25 @@ class AuthController extends Controller
     
     public function logout()
     {
-        Auth::guard('api')->logout();
+        // Auth::guard('api')->logout();
 
-        return response()->json([
-            'message' => 'Logout berhasil',
-        ], 200);
-    } 
+        // return response()->json([
+        //     'message' => 'Logout berhasil',
+        // ], 200);
+
+   try {
+            Auth::guard('api')->logout();
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Logout berhasil. Token telah dihapus.',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message'     => 'Gagal logout, terjadi kesalahan.',
+                'error'       => $e->getMessage()
+            ], 500);
+        }
+    }
 }
